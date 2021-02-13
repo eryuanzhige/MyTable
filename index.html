@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>my_table</title>
+</head>
+<body>
+<div id="app">
+  <my-table :table-setting="tableSetting" @refreshTabl="refreshTable"/>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="dist/build.js"></script>
+<script>
+  var vm = new Vue({
+    el: "#app",
+    data: function () {
+      return {
+        tableSetting: {
+          total: 100, // table数据总条数
+          list: [
+            {
+              deep: {
+                name: 'meng',
+              },
+              level: 0,
+              date: '2016-05-02',
+              name: '黑黑',
+              address: '上海市普陀区金沙江路 1518 弄'
+            },
+            {
+              deep: {
+                name: 'yuan',
+              },
+              level: 1,
+              date: '2016-05-02',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1519 弄'
+            }
+          ], // table数据
+          otherHeight: 260, // 除了table表格之外的高度，为了做table表格的高度自适应
+          page: 1, // 当前页码
+          pageSize: 15, // 每页数量
+          pageSizes: [15, 30, 50, 100],
+          options: {
+            stripe: true, // 是否为斑马纹 table
+            loading: false, // 是否添加表格loading加载动画
+            highlightCurrentRow: true, // 是否支持当前行高亮显示
+            mutiSelect: false, // 是否支持列表项选中功能
+            filter: false, // 是否支持数据过滤功能
+            action: false // 是否支持 表格操作功能
+          },
+          columns: [ // 需要展示的列
+            {
+              prop: 'deep.name',
+              label: '工地名称',
+              align: 'center'
+            },
+            {
+              prop: '',
+              label: '接收人',
+              align: 'center',
+              formatter: row => {
+                return row.name
+              }
+            },
+            {
+              prop: 'address',
+              label: '接收人',
+              align: 'center'
+            },
+            {
+              prop: 'tranOpinion',
+              label: '按钮',
+              align: 'center',
+              formatter: row => {
+                if (row.level !== 0) {
+                  return row.level
+                } else {
+                  return `<span style="color: red">尚未审核</span>`
+                }
+              }
+            }
+          ],
+          operates: { // 列操作按钮
+            fixed: 'right',
+            list: [
+              {
+                label: '审核',
+                type: 'warning',
+                show: row => {
+                  if (row.tranState === 0) {
+                    return this.$route.meta.btns['审核']
+                  } else {
+                    return false
+                  }
+                },
+                icon: 'el-icon-edit',
+                plain: true,
+                disabled: false,
+                method: (index, row) => {
+
+                }
+              },
+              {
+                label: '查看',
+                type: 'info',
+                show: row => {
+                  if (row.level !== 0) {
+                    return true
+                  } else {
+                    return false
+                  }
+                },
+                icon: 'el-icon-view',
+                plain: false,
+                disabled: false,
+                method: (index, row) => {
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    methods: {
+      refreshTable() {
+        this.tableSetting.options.loading = true
+        fetch({
+          url: '/inspect/ins/data',
+          method: 'get',
+          params: {
+            pn: this.tableSetting.page,
+            ps: this.tableSetting.pageSize
+          }
+        }).then(res => {
+          this.tableSetting.list = res.t.list
+          this.tableSetting.total = res.t.total
+        }).finally(() => {
+          this.tableSetting.options.loading = false
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>
