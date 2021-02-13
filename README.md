@@ -3,7 +3,9 @@
 > 基于ElementUI的table组件，支持通过简单的配置渲染table，相比于直接使用ElementUI/table更加简洁，代码更少
 
 ## 预览
-
+### 在线地址
+http://htmlpreview.github.io/?https://github.com/eryuanzhige/MyTableTest/blob/main/index.html
+### clone项目并安装
 ``` bash
 # install dependencies
 npm install
