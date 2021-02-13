@@ -27,7 +27,7 @@ main.js
 import MyTable from '@yuany_an/my_table'
 Vue.use(MyTable)
 ```
-##使用
+## 使用
 参考index.html
 template
 ``` bash
@@ -180,7 +180,7 @@ refreshTable() {
 ```
 配置项有对应说明
 
-##todo
+## todo
 
 * 代码优化，目前只是从项目中拷贝出来
 * 通过$attrs支持ElementUI所有属性，通过$listeners返回所有事件
@@ -190,5 +190,5 @@ refreshTable() {
 
 sunzuoyuan@gmail.com
 
-##感谢小梦梦的支持和鼓励
+## 感谢小梦梦的支持和鼓励
 
