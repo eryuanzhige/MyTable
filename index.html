@@ -20,7 +20,9 @@
     data: function () {
       return {
         tableSetting: {
-          total: 100, // table数据总条数
+          // table数据总条数，一般在获取数据后更新此项
+          total: 100,
+          //数据，一般通过接口获取
           list: [
             {
               deep: {
@@ -40,24 +42,42 @@
               name: '王小虎',
               address: '上海市普陀区金沙江路 1519 弄'
             }
-          ], // table数据
-          otherHeight: 260, // 除了table表格之外的高度，为了做table表格的高度自适应
-          page: 1, // 当前页码
-          pageSize: 15, // 每页数量
+          ],
+          // 除了table表格之外的高度，为了做table表格的高度自适应
+          otherHeight: 260,
+          // 当前页码
+          page: 1,
+          // 每页数量
+          pageSize: 15,
+          //切换每页数量
           pageSizes: [15, 30, 50, 100],
           options: {
-            stripe: true, // 是否为斑马纹 table
-            loading: false, // 是否添加表格loading加载动画
-            highlightCurrentRow: true, // 是否支持当前行高亮显示
-            mutiSelect: false, // 是否支持列表项选中功能
-            filter: false, // 是否支持数据过滤功能
-            action: false // 是否支持 表格操作功能
+            // 是否为斑马纹 table
+            stripe: true,
+            // 是否添加表格loading加载动画，可在加载数据前设为true，获取到数据后设置为false
+            loading: false,
+            // 是否支持当前行高亮显示
+            highlightCurrentRow: true,
+            // 是否支持列表项选中功能
+            mutiSelect: false,
+            // 是否支持数据过滤功能
+            filter: false,
+            // 是否支持 表格操作功能
+            action: false
           },
-          columns: [ // 需要展示的列
+          // 需要展示的列定义
+          columns: [
             {
+              //字段名，支持深层数据获取，支持formatter，参考下面的列定义，自定义支持返回html
               prop: 'deep.name',
+              //头部名
               label: '工地名称',
-              align: 'center'
+              //对其方式
+              align: 'center',
+              //此列是否显示
+              show: () => {
+                // return this.nowTable != null && this.nowTable.col1 != null
+              }
             },
             {
               prop: '',
@@ -74,7 +94,7 @@
             },
             {
               prop: 'tranOpinion',
-              label: '按钮',
+              label: '自定义的列',
               align: 'center',
               formatter: row => {
                 if (row.level !== 0) {
@@ -85,18 +105,16 @@
               }
             }
           ],
+          //操作列按钮定义
           operates: { // 列操作按钮
             fixed: 'right',
             list: [
               {
                 label: '审核',
                 type: 'warning',
+                //此按钮是否显示
                 show: row => {
-                  if (row.tranState === 0) {
-                    return this.$route.meta.btns['审核']
-                  } else {
-                    return false
-                  }
+                  return true
                 },
                 icon: 'el-icon-edit',
                 plain: true,

@@ -7,11 +7,7 @@ const MyTableInstall = {
 }
 // global 情况下 自动安装
 if (typeof window !== 'undefined' && window.Vue) {
-  debugger
-
   window.Vue.use(MyTableInstall)
 }
-debugger
-
 export default MyTableInstall
 
