@@ -4,6 +4,7 @@
 
 ## 预览
 ### 在线地址
+在线地址访问缓慢，请耐心等候
 http://htmlpreview.github.io/?https://github.com/eryuanzhige/MyTableTest/blob/main/index.html
 ### clone项目并安装
 ``` bash
@@ -85,6 +86,23 @@ tableSetting: {
           },
           // 需要展示的列定义
           columns: [
+          //嵌套表头支持
+          {
+              label: '表头',
+              align: 'center',
+              children: [
+                {
+                  prop: 'name',
+                  label: '子1',
+                  align: 'center'
+                },
+                {
+                  prop: 'deep.name',
+                  label: '子2',
+                  align: 'center'
+                }
+                ]
+            },
             {
               //字段名，支持深层数据获取，支持formatter，参考下面的列定义，自定义支持返回html
               prop: 'deep.name',
@@ -123,6 +141,11 @@ tableSetting: {
               }
             }
           ],
+          //合并列
+           span: {
+                  columnIndex: '1,3',//合并第几列
+                  spanColumn: 'name'//根据数据的那个属性合并（columns——>prop）
+                },
           //操作列按钮定义
           operates: { // 列操作按钮
             fixed: 'right',

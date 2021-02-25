@@ -1,7 +1,7 @@
 {
   "name": "@yuany_an/my_table",
   "description": "A Table from ElementUI",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "author": "SunZuoyuan <sunzuoyuan@gmail.com>",
   "license": "MIT",
   "main": "dist/build.js",

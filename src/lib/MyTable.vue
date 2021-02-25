@@ -1,6 +1,6 @@
 <!-- 封装的分页 table-->
 <template>
-  <div v-loading="tableSetting.options.loading" class="table clearfix">
+  <div v-loading="tableSetting.options.loading" class="my-table clearfix">
     <el-table
       v-if="forceUpdate"
       id="iTable"
@@ -344,7 +344,8 @@ export default {
 }
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
-  .table {
+  .my-table {
+    overflow: auto;
     .el-table {
       border-radius: 3px;
     }
