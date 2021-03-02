@@ -64,7 +64,7 @@
                   :plain="btn.plain"
                   size="mini"
                   @click.native.prevent="btn.method(key,scope.row)"
-                >{{ getLabel(btn.label,scope.row) }}
+                >{{ getLabel(btn.label, scope.row) }}
                 </el-button>
               </div>
             </template>
@@ -93,9 +93,10 @@
 </template>
 <script>
 import TableColumn from './TableColumn'
-import _ from 'lodash'
+import {deepGet} from './util'
+
 export default {
-  name:'MyTable',
+  name: 'MyTable',
   components: {
     TableColumn,
     expandDom: {
@@ -128,8 +129,8 @@ export default {
     // 单元格样式方法
     cellClassMethod: {
       type: Function,
-      default: function() {
-        return function() {
+      default: function () {
+        return function () {
 
         }
       }
@@ -151,10 +152,10 @@ export default {
     }
   },
   watch: {
-    thisLength: function() {
+    thisLength: function () {
       this.refreshTable()
     },
-    'tableSetting.options.loading': function() {
+    'tableSetting.options.loading': function () {
       // 触发刷新
     }
   },
@@ -216,7 +217,7 @@ export default {
       return this.tableSetting.pageSize * (this.tableSetting.page - 1) + index + 1
     },
     // 每行样式
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName({row, rowIndex}) {
       if (rowIndex % 2 === 0) {
         return 'twice-row'
       } else {
@@ -304,8 +305,8 @@ export default {
       }
     },
     // 合并行表格
-    cellMerge({ row, column, rowIndex, columnIndex }) {
-      if (_.get(this.tableSetting, 'span.columnIndex')) {
+    cellMerge({row, column, rowIndex, columnIndex}) {
+      if (deepGet(this.tableSetting, 'span.columnIndex')) {
         const columns = this.tableSetting.span.columnIndex.toString().split(',')
         if (columns.includes(columnIndex.toString())) {
           const _row = this.tableSetting.spanArr[rowIndex]
@@ -318,7 +319,7 @@ export default {
       }
     }, // 获取合并表格数组
     getSpanArr() {
-      if (_.get(this.tableSetting, 'span.columnIndex')) {
+      if (deepGet(this.tableSetting, 'span.columnIndex')) {
         if (this.tableSetting.list) {
           console.log('computed span')
           this.tableSetting.spanArr = []
@@ -328,7 +329,7 @@ export default {
               this.pos = 0
             } else {
               // 判断当前元素与上一个元素是否相同
-              if (_.get(this.tableSetting.list[i], this.tableSetting.span.spanColumn) === _.get(this.tableSetting.list[i - 1], this.tableSetting.span.spanColumn) && _.get(this.tableSetting.list[i], this.tableSetting.span.spanColumn)) {
+              if (deepGet(this.tableSetting.list[i], this.tableSetting.span.spanColumn) === deepGet(this.tableSetting.list[i - 1], this.tableSetting.span.spanColumn) && deepGet(this.tableSetting.list[i], this.tableSetting.span.spanColumn)) {
                 this.tableSetting.spanArr[this.pos] += 1
                 this.tableSetting.spanArr.push(0)
               } else {
@@ -344,87 +345,88 @@ export default {
 }
 </script>
 <style rel="stylesheet/scss" lang="less" scoped>
-  .my-table {
-    overflow: auto;
-    .el-table {
-      border-radius: 3px;
-    }
+.my-table {
+  overflow: auto;
 
-    @headerHeight: 38px;
+  .el-table {
+    border-radius: 3px;
+  }
 
-    /deep/ .i-header {
-      th {
-        //line-height: @headerHeight;
+  @headerHeight: 38px;
+
+  /deep/ .i-header {
+    th {
+      //line-height: @headerHeight;
+      // min-height: @headerHeight;
+      padding-top: 0;
+      padding-bottom: 0;
+      color: #fff !important;
+
+      .cell {
+        // line-height: @headerHeight;
         // min-height: @headerHeight;
-        padding-top: 0;
-        padding-bottom: 0;
-        color: #fff !important;
-
-        .cell {
-          // line-height: @headerHeight;
-          // min-height: @headerHeight;
-        }
       }
-    }
-
-    /deep/ .single-row {
-      background: #fff !important;
-
-    }
-
-    /deep/ .twice-row {
-      background: #f6f7fc !important;
-
-    }
-
-    height: 100%;
-
-    .el-pagination {
-      float: right;
-      margin: 20px;
-    }
-
-    .myPagination {
-      margin: 10px;
-    }
-
-    .el-table__fixed-right {
-      bottom: 0 !important;
-      right: 6px !important;
-      z-index: 1004;
-    }
-
-    .operate-group {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: left;
-
-      .item {
-        display: inline-block;
-        float: left;
-        margin-right: 5px;
-
-        .el-button {
-          display: inline-block;
-        }
-      }
-    }
-
-    .fix-right {
-      position: absolute;
-      right: 0;
-      height: 100px;
-      color: #ffffff;
-      width: 30px;
-      display: block;
-      z-index: 1005;
-      writing-mode: vertical-rl;
-      text-align: center;
-      line-height: 28px;
-      border-bottom-left-radius: 6px;
-      border-top-left-radius: 6px;
-      cursor: pointer;
     }
   }
+
+  /deep/ .single-row {
+    background: #fff !important;
+
+  }
+
+  /deep/ .twice-row {
+    background: #f6f7fc !important;
+
+  }
+
+  height: 100%;
+
+  .el-pagination {
+    float: right;
+    margin: 20px;
+  }
+
+  .myPagination {
+    margin: 10px;
+  }
+
+  .el-table__fixed-right {
+    bottom: 0 !important;
+    right: 6px !important;
+    z-index: 1004;
+  }
+
+  .operate-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+
+    .item {
+      display: inline-block;
+      float: left;
+      margin-right: 5px;
+
+      .el-button {
+        display: inline-block;
+      }
+    }
+  }
+
+  .fix-right {
+    position: absolute;
+    right: 0;
+    height: 100px;
+    color: #ffffff;
+    width: 30px;
+    display: block;
+    z-index: 1005;
+    writing-mode: vertical-rl;
+    text-align: center;
+    line-height: 28px;
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+    cursor: pointer;
+  }
+}
 
 </style>

@@ -24,7 +24,6 @@
   ],
   "dependencies": {
     "element-ui": "^2.10.0",
-    "lodash": "^4.17.20",
     "vue": "^2.5.11"
   },
   "browserslist": [
