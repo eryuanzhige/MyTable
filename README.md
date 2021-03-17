@@ -207,7 +207,7 @@ refreshTable() {
 
 ## todo
 
-* 代码优化，目前只是从项目中拷贝出来
+* ~~代码优化，目前只是从项目中拷贝出来~~
 * 通过$attrs支持ElementUI所有属性，通过$listeners返回所有事件
 * ~~移除lodash,只用到了Object.get~~
 

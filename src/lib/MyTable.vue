@@ -1,10 +1,8 @@
-<!-- 封装的分页 table-->
 <template>
   <div v-loading="tableSetting.options.loading" class="my-table clearfix">
     <el-table
       v-if="forceUpdate"
       id="iTable"
-      ref="mutipleTable"
       :data="tableSetting.list"
       :stripe="tableSetting.options.stripe"
       :span-method="cellMerge"
@@ -20,7 +18,6 @@
       @sort-change="sortTableChange">
       <!--选择框-->
       <el-table-column v-if="tableSetting.options.mutiSelect" type="selection" align="center" style="width: 50px;"/>
-      <!--数据列-->
       <!--添加序号-->
       <el-table-column
         v-if="!tableSetting.options.disableIndex"
@@ -130,9 +127,7 @@ export default {
     cellClassMethod: {
       type: Function,
       default: function () {
-        return function () {
-
-        }
+        return function () {}
       }
     }
   },
@@ -279,7 +274,8 @@ export default {
       } catch (e) {
         return true
       }
-    }, // 是否显示按钮
+    },
+    // 是否显示按钮
     getButtonShow(x, row) {
       try {
         if (typeof x === 'function') {
@@ -292,7 +288,8 @@ export default {
       } catch (e) {
         return true
       }
-    }, // button label
+    },
+    // button label
     getLabel(x, row) {
       try {
         if (typeof x === 'function') {
