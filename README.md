@@ -7,11 +7,11 @@
 在线地址访问缓慢，请耐心等候
 http://207.148.23.60:8090/
 
-##功能
-###elementUI原有功能支持
+## 功能
+### elementUI原有功能支持
 * table全部属性支持，在mytable组件上传入即可
 * table-column全部属性支持，在配置文件column上传入
-###增加功能
+### 增加功能
 * 只需要一个配置对象就可以渲染一个table，
 * pagination组件集成，传配置即可
 * 支持column指定show属性，show支持Boolen和函数两种
