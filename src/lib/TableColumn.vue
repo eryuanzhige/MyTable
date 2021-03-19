@@ -1,11 +1,7 @@
 <template>
   <el-table-column
-    :prop="column.prop"
-    :sortable="column.sortable||false"
-    :show-overflow-tooltip="!column.disabledTooltip"
-    :label="getColLabel(column.label)"
-    :width="column.width"
-    :align="column.align">
+    v-bind="column"
+    :label="getColLabel(column.label)">
     <!--子列-->
     <template v-if="column.children">
       <slot/>

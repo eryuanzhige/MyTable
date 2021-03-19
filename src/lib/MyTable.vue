@@ -2,22 +2,13 @@
   <div v-loading="tableSetting.options.loading" class="my-table clearfix">
     <el-table
       v-if="forceUpdate"
-      id="iTable"
+      v-bind="$attrs"
+      v-on="$listeners"
       :data="tableSetting.list"
-      :stripe="tableSetting.options.stripe"
       :span-method="cellMerge"
-      :cell-class-name="cellClassMethod"
-      :row-class-name="tableRowClassName"
-      :max-height="height"
-      header-row-class-name="i-header"
-      border
-      @selection-change="handleSelectionChange"
-      @row-dblclick="rowDbClickHandle"
-      @row-click="rowClickHandle"
-      @cell-click="cellClick"
-      @sort-change="sortTableChange">
+      @selection-change="handleSelectionChange">
       <!--选择框-->
-      <el-table-column v-if="tableSetting.options.mutiSelect" type="selection" align="center" style="width: 50px;"/>
+      <el-table-column v-if="tableSetting.options.selection" type="selection" align="center" style="width: 50px;"/>
       <!--添加序号-->
       <el-table-column
         v-if="!tableSetting.options.disableIndex"
@@ -72,6 +63,7 @@
     <div style="height:12px"/>
     <!-- 分页-->
     <el-pagination
+      class="my-pagination"
       v-if="! tableSetting.isPaginateDisabled"
       :page-size="tableSetting.pageSize"
       :small="tableSetting.small"
@@ -81,7 +73,6 @@
       :total="tableSetting.total"
       :disabled="tableSetting.isPaginateDisabled"
       background
-      class="myPagination"
       @size-change="handleSizeChange"
       @current-change="handleIndexChange"
     />
@@ -122,28 +113,11 @@ export default {
     tableSetting: {
       required: true,
       type: Object
-    },
-    // 单元格样式方法
-    cellClassMethod: {
-      type: Function,
-      default: function () {
-        return function () {}
-      }
     }
   },
   data() {
     return {
       forceUpdate: true, // 触发重现渲染
-      multipleSelection: [] // 多行选中
-    }
-  },
-  computed: {
-    height() {
-      if (this.tableSetting.options.maxHeight) {
-        return this.tableSetting.options.maxHeight
-      }
-      const height = document.documentElement.clientHeight - this.tableSetting.otherHeight
-      return height
     }
   },
   watch: {
@@ -183,41 +157,15 @@ export default {
     },
     // 多行选中
     handleSelectionChange(val) {
-      this.multipleSelection = val
       this.tableSetting.multipleSelection = val
-      this.$emit('handleSelectionChange', val)
     },
     // 刷新当前表格
     refreshTable(size) {
       this.$emit('refreshTabl', size)
     },
-    // 单行被点击时使用
-    rowClickHandle(row, event, column) {
-      this.$emit('rowClickHandle', row, event, column)
-    },
-    // 单行被双击击时使用
-    rowDbClickHandle(row) {
-      this.$emit('rowDbClickHandle', row)
-    },
-    // 单元格被点击时使用
-    cellClick(row, column, cell) {
-      this.$emit('cellClick', row, column, cell)
-    },
-    // 排序触发
-    sortTableChange(colum) {
-      this.$emit('sort-change', colum)
-    },
     // 计算行号方法
     indexMethod(index) {
       return this.tableSetting.pageSize * (this.tableSetting.page - 1) + index + 1
-    },
-    // 每行样式
-    tableRowClassName({row, rowIndex}) {
-      if (rowIndex % 2 === 0) {
-        return 'twice-row'
-      } else {
-        return 'single-row'
-      }
     },
     // 获取深层对象属相
     getDescendantantProp(obj, desc) {
@@ -344,47 +292,12 @@ export default {
 <style rel="stylesheet/scss" lang="less" scoped>
 .my-table {
   overflow: auto;
-
-  .el-table {
-    border-radius: 3px;
-  }
-
-  @headerHeight: 38px;
-
-  /deep/ .i-header {
-    th {
-      //line-height: @headerHeight;
-      // min-height: @headerHeight;
-      padding-top: 0;
-      padding-bottom: 0;
-      color: #fff !important;
-
-      .cell {
-        // line-height: @headerHeight;
-        // min-height: @headerHeight;
-      }
-    }
-  }
-
-  /deep/ .single-row {
-    background: #fff !important;
-
-  }
-
-  /deep/ .twice-row {
-    background: #f6f7fc !important;
-
-  }
-
   height: 100%;
 
-  .el-pagination {
+  .my-pagination {
     float: right;
-    margin: 20px;
-  }
-
-  .myPagination {
     margin: 10px;
+    border-radius: 3px;
   }
 
   .el-table__fixed-right {
