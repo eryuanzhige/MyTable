@@ -8,7 +8,7 @@
 <div id="app">
   <h5>常规</h5>
   <div>
-    <my-table :table-setting="tableSetting" @refreshTabl="refreshTable"/>
+    <my-table :table-setting="tableSetting" border @refreshTabl="refreshTable" @sort-change="sortTableChange"/>
   </div>
   <h5>支持合并</h5>
   <div>
@@ -63,8 +63,6 @@
               address: '李沧区金水路'
             }
           ],
-          // 除了table表格之外的高度，为了做table表格的高度自适应
-          otherHeight: 260,
           // 当前页码
           page: 1,
           // 每页数量
@@ -72,32 +70,30 @@
           //切换每页数量
           pageSizes: [15, 30, 50, 100],
           options: {
-            // 是否为斑马纹 table
-            stripe: true,
             // 是否添加表格loading加载动画，可在加载数据前设为true，获取到数据后设置为false
             loading: false,
-            // 是否支持当前行高亮显示
-            highlightCurrentRow: true,
             // 是否支持列表项选中功能
-            mutiSelect: false,
-            // 是否支持数据过滤功能
-            filter: false,
+            selection: false,
             // 是否支持 表格操作功能
             action: false
           },
           // 需要展示的列定义
           columns: [
             {
-              //字段名，支持深层数据获取，支持formatter，参考下面的列定义，自定义支持返回html
+              //此列是否显示,elementUI基础上扩展的属性
+              show: () => {
+                return true
+                // return this.nowTable != null && this.nowTable.col1 != null
+              },
+              //字段名，支持深层数据获取，支持formatter，参考下面的列定义，自定义支持返回html，elementUI基础上扩展的功能
               prop: 'deep.name',
+              //elementUI的el-table-column组件属性全部支持，可以在这里传入
+              fixed:'left',
               //头部名
-              label: '工地名称',
+              label: '名称',
+              sortable:true,
               //对其方式
               align: 'center',
-              //此列是否显示
-              show: () => {
-                // return this.nowTable != null && this.nowTable.col1 != null
-              }
             },
             {
               prop: '',
@@ -163,6 +159,7 @@
           }
         },
         tableSetting1: {
+          disableIndex:true,//隐藏行号
           // table数据总条数，一般在获取数据后更新此项
           total: 100,
           //数据，一般通过接口获取
@@ -195,8 +192,6 @@
               address: '李沧区金水路'
             }
           ],
-          // 除了table表格之外的高度，为了做table表格的高度自适应
-          otherHeight: 260,
           // 当前页码
           page: 1,
           // 每页数量
@@ -204,16 +199,10 @@
           //切换每页数量
           pageSizes: [15, 30, 50, 100],
           options: {
-            // 是否为斑马纹 table
-            stripe: true,
             // 是否添加表格loading加载动画，可在加载数据前设为true，获取到数据后设置为false
             loading: false,
-            // 是否支持当前行高亮显示
-            highlightCurrentRow: true,
             // 是否支持列表项选中功能
-            mutiSelect: false,
-            // 是否支持数据过滤功能
-            filter: false,
+            selection: false,
             // 是否支持 表格操作功能
             action: false
           },
@@ -332,8 +321,6 @@
               address: '李沧区金水路'
             }
           ],
-          // 除了table表格之外的高度，为了做table表格的高度自适应
-          otherHeight: 260,
           // 当前页码
           page: 1,
           // 每页数量
@@ -341,16 +328,10 @@
           //切换每页数量
           pageSizes: [15, 30, 50, 100],
           options: {
-            // 是否为斑马纹 table
-            stripe: true,
             // 是否添加表格loading加载动画，可在加载数据前设为true，获取到数据后设置为false
             loading: false,
-            // 是否支持当前行高亮显示
-            highlightCurrentRow: true,
             // 是否支持列表项选中功能
-            mutiSelect: false,
-            // 是否支持数据过滤功能
-            filter: false,
+            selection: false,
             // 是否支持 表格操作功能
             action: false
           },
@@ -450,6 +431,9 @@
       }
     },
     methods: {
+      sortTableChange(){
+        debugger
+      },
       refreshTable() {
         this.tableSetting.options.loading = true
         fetch({
