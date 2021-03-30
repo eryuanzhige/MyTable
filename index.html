@@ -8,7 +8,7 @@
 <div id="app">
   <h5>常规</h5>
   <div>
-    <my-table :table-setting="tableSetting" border @refreshTabl="refreshTable" @sort-change="sortTableChange"/>
+    <my-table ref="table" :table-setting="tableSetting" border @refreshTabl="refreshTable" @sort-change="sortTableChange"/>
   </div>
   <h5>支持合并</h5>
   <div>
@@ -430,9 +430,11 @@
         }
       }
     },
+    mounted() {
+      // this.$refs['table'].clearSort();
+    },
     methods: {
       sortTableChange(){
-        debugger
       },
       refreshTable() {
         this.tableSetting.options.loading = true

@@ -4,7 +4,6 @@
 
 ## 预览
 ### 在线地址
-在线地址访问缓慢，请耐心等候
 http://207.148.23.60:8090/
 
 ## 功能
@@ -70,6 +69,8 @@ import MyTable from '@yuany_an/my_table'
 Vue.use(MyTable)
 ```
 ## 使用
+
+### 基本使用
 参考index.html
 template
 ``` bash
@@ -227,6 +228,13 @@ refreshTable() {
 ```
 配置项有对应说明
 
+### 通过ref调用ElementUI-Table方法
+``` bash
+<my-table ref="table" :table-setting="tableSetting"/>
+```
+``` bash
+this.$refs['table'].clearSort();
+```
 ## todo
 
 * ~~代码优化，目前只是从项目中拷贝出来~~
@@ -234,7 +242,7 @@ refreshTable() {
 * ~~移除lodash,只用到了Object.get~~
 * 移除less依赖
 * 更换英文注释，添加英文文档
-* ref获取表格组件引用
+* ~~ref获取表格组件引用~~
 
 ## author
 

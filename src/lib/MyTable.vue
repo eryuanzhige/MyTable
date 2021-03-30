@@ -1,6 +1,7 @@
 <template>
   <div v-loading="tableSetting.options.loading" class="my-table clearfix">
     <el-table
+      ref="tableInst"
       v-if="forceUpdate"
       v-bind="$attrs"
       v-on="$listeners"
@@ -83,6 +84,7 @@
 import TableColumn from './TableColumn'
 import {deepGet} from './util'
 
+const tableMethods = ['clearSelection', 'toggleRowSelection', 'toggleAllSelection', 'toggleRowExpansion', 'setCurrentRow', 'clearSort', 'clearFilter', 'doLayout', 'sort']
 export default {
   name: 'MyTable',
   components: {
@@ -127,6 +129,12 @@ export default {
     'tableSetting.options.loading': function () {
       // 触发刷新
     }
+  },
+  mounted() {
+    //添加elementUI方法到mytable
+    tableMethods.forEach(method => {
+      this[method] = this.$refs['tableInst'][method]
+    })
   },
   beforeUpdate() {
     this.getSpanArr()
