@@ -5,7 +5,7 @@ const MyTableInstall = {
     Vue.component('MyTable', MyTable)
   }
 }
-// global 情况下 自动安装
+//Automatic installation in the global case
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(MyTableInstall)
 }

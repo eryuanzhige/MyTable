@@ -2,11 +2,11 @@
   <el-table-column
     v-bind="column"
     :label="getColLabel(column.label)">
-    <!--子列-->
+    <!--Sub-column-->
     <template v-if="column.children">
       <slot/>
     </template>
-    <!--当前列-->
+    <!--this column-->
     <template slot-scope="scope">
       <template>
         <template v-if="column.formatter">
@@ -26,12 +26,13 @@
 </template>
 
 <script>
+import {deepGet} from './util'
 
 export default {
   name: 'TableColumn',
   props: ['column', 'index'],
   methods: {
-    // 是否显示列
+    // Whether to show columns
     getColumnShow(x) {
       try {
         if (typeof x === 'function') {
@@ -56,19 +57,11 @@ export default {
       } catch (e) {
         return x
       }
-    }, // 获取深层对象属相
-    getDescendantantProp(obj, desc) {
-      try {
-        const arr = desc.split('.')
-        while (arr.length) {
-          obj = obj[arr.shift()]
-        }
-        return obj
-      } catch (e) {
-        console.warn('table字段报错了,获取深层对象')
-      }
     },
-    // 执行formatter
+    getDescendantantProp(obj, desc) {
+      return deepGet(obj, desc)
+    },
+    // formatter
     getFormatter(x, row, coulmn, cell, index) {
       try {
         if (typeof x === 'function') {

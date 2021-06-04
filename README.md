@@ -1,49 +1,49 @@
 # my_table
 
-> 基于ElementUI的table组件，支持通过简单的配置渲染table，相比于直接使用ElementUI/table更加简洁，代码更少
+> Table component based on ElementUI supports rendering table through simple configuration, which is more concise and less code than using ElementUI/table directly
 
-## 预览
-### 在线地址
+## Preview
+### Online address
 http://207.148.23.60:8090/
 
-## 功能
-### elementUI原有功能支持
-* table全部属性支持，在mytable组件上传入即可
-* table-column全部属性支持，在配置文件column上传入
-### 增加功能
-* 只需要一个配置对象就可以渲染一个table，
-* pagination组件集成，传配置即可
-* 支持column指定show属性，show支持Boolen和函数两种
-* column的prop支持深层属性(obj.x.a)
-* 支持配置式操作栏，自动计算操作栏宽度
-* 支持简单合并单元格基于配置即可
+## Features
+### ElementUI original function support
+* All table attributes are supported, just pass in the mytable component
+* All attributes of table-column are supported and passed in on the configuration file column
+### add feature
+* Only one configuration object is needed to render a table,
+* Pagination component integration, just pass the configuration
+* Support column designation show attribute, show supports Boolen and function two
+* The prop of column supports deep attributes (obj.x.a)
+* Support configuration type operation bar, automatically calculate the width of the operation bar
+* Support simple merging of cells based on configuration
 ```
     span: {
-        columnIndex: '1,3',//合并第几列
-        spanColumn: 'name'//根据数据的那个属性合并（columns——>prop）
+        columnIndex: '1,3',//How many columns to merge
+        spanColumn:'name'//Merge according to the attribute of the data (columns——>prop)
     }
 ```
-* 支持嵌套表头
+* Support nested header
 ```
    {
-              label: '表头',
-              align: 'center',
+              label:'Header',
+              align:'center',
               children: [
                 {
-                  prop: 'name',
-                  label: '子1',
-                  align: 'center'
+                  prop:'name',
+                  label:'子1',
+                  align:'center'
                 },
                 {
-                  prop: 'deep.name',
-                  label: '子2',
-                  align: 'center'
+                  prop:'deep.name',
+                  label:'子2',
+                  align:'center'
                 }
                 ]
    }
 ```
 
-### clone项目并安装
+### Clone the project and install
 
 ``` bash
 # install dependencies
@@ -53,25 +53,25 @@ npm install
 npm run build
 ```
 
-然后在浏览器打开index.html就可以预览了
+Then open index.html in the browser to preview
 
-## 安装
-### 浏览器直接引用
-参考index.html,script标签引入build.js即可，需要先引入ElementUI
-### webpack使用
-安装
+## Installation
+### Direct browser reference
+Refer to index.html, script tag to import build.js, you need to import ElementUI first
+### webpack usage
+installation
 ``` bash
 npm install @yuany_an/my_table
 ```
 main.js
 ``` bash
-import MyTable from '@yuany_an/my_table'
+import MyTable from'@yuany_an/my_table'
 Vue.use(MyTable)
 ```
-## 使用
+## Use
 
-### 基本使用
-参考index.html
+### Basic usage
+Refer to index.html
 template
 ``` bash
   <my-table :table-setting="tableSetting" @refreshTabl="refreshTable"/>
@@ -79,108 +79,108 @@ template
 data
 ``` bash
 tableSetting: {
-          // table数据总条数，一般在获取数据后更新此项
+          // The total number of table data, generally update this item after obtaining the data
           total: 100,
-          //数据，一般通过接口获取
+          //Data, generally obtained through the interface
           list: [
             {
               deep: {
-                name: 'meng',
+                name:'meng',
               },
               level: 0,
               date: '2016-05-02',
-              name: '圆圆',
-              address: '李沧区金水路'
+              name:'Yuanyuan',
+              address:'Licang District Jinshui Road'
             },
             {
               deep: {
-                name: 'yuan',
+                name:'yuan',
               },
               level: 1,
               date: '2016-05-02',
-              name: '梦',
-              address: '上海市普陀区金沙江路 1519 弄'
+              name:'dream',
+              address:'Lane 1519, Jinshajiang Road, Putuo District, Shanghai'
             },
             {
               deep: {
-                name: 'yuan',
+                name:'yuan',
               },
               level: 1,
               date: '2016-05-02',
-              name: '梦',
-              address: '李沧区金水路'
+              name:'dream',
+              address:'Licang District Jinshui Road'
             }
           ],
-          // 当前页码
+          // current page number
           page: 1,
-          // 每页数量
+          // number per page
           pageSize: 15,
-          //切换每页数量
+          //Switch the number per page
           pageSizes: [15, 30, 50, 100],
           options: {
-            // 是否添加表格loading加载动画，可在加载数据前设为true，获取到数据后设置为false
+            // Whether to add table loading loading animation, it can be set to true before loading the data, and set to false after the data is obtained
             loading: false,
-            // 是否支持列表项选中功能
+            // Whether to support the list item selection function
             selection: false,
-            // 是否支持 表格操作功能
+            // Whether to support table operation function
             action: false
           },
-          // 需要展示的列定义
+          // column definition to be displayed
           columns: [
             {
-              //此列是否显示,ElementUI基础上扩展的属性
+              //Whether this column is displayed, the extended attributes on the basis of ElementUI
               show: () => {
                 return true
                 // return this.nowTable != null && this.nowTable.col1 != null
               },
-              //字段名，支持深层数据获取，支持formatter，参考下面的列定义，自定义支持返回html，ElementUI基础上扩展的功能
-              prop: 'deep.name',
-              //ElementUI的el-table-column组件属性全部支持，可以在这里传入
+              //Field name, support in-depth data acquisition, support formatter, refer to the column definition below, custom support to return html, extended functions based on ElementUI
+              prop:'deep.name',
+              //ElementUI's el-table-column component properties are all supported, you can pass in here
               fixed:'left',
-              //头部名
-              label: '名称',
+              //Head name
+              label:'Name',
               sortable:true,
-              //对其方式
-              align: 'center',
+              //On the way
+              align:'center',
             },
             {
-              prop: '',
-              label: '接收人',
-              align: 'center',
+              prop:'',
+              label:'Recipient',
+              align:'center',
               formatter: row => {
                 return row.name
               }
             },
             {
-              prop: 'address',
-              label: '接收人',
-              align: 'center'
+              prop:'address',
+              label:'Recipient',
+              align:'center'
             },
             {
-              prop: 'tranOpinion',
-              label: '自定义的列',
-              align: 'center',
+              prop:'tranOpinion',
+              label:'Custom column',
+              align:'center',
               formatter: row => {
                 if (row.level !== 0) {
                   return row.level
                 } else {
-                  return `<span style="color: red">尚未审核</span>`
+                  return `<span style="color: red">Not yet reviewed</span>`
                 }
               }
             }
           ],
-          //操作列按钮定义
-          operates: { // 列操作按钮
-            fixed: 'right',
+          //Operation column button definition
+          operates: {// Column operation button
+            fixed:'right',
             list: [
               {
-                label: '审核',
-                type: 'warning',
-                //此按钮是否显示
+                label:'review',
+                type:'warning',
+                //Whether this button is displayed
                 show: row => {
                   return true
                 },
-                icon: 'el-icon-edit',
+                icon:'el-icon-edit',
                 plain: true,
                 disabled: false,
                 method: (index, row) => {
@@ -188,8 +188,8 @@ tableSetting: {
                 }
               },
               {
-                label: '查看',
-                type: 'info',
+                label:'View',
+                type:'info',
                 show: row => {
                   if (row.level !== 0) {
                     return true
@@ -197,7 +197,7 @@ tableSetting: {
                     return false
                   }
                 },
-                icon: 'el-icon-view',
+                icon:'el-icon-view',
                 plain: false,
                 disabled: false,
                 method: (index, row) => {
@@ -226,9 +226,9 @@ refreshTable() {
         })
       }
 ```
-配置项有对应说明
+Configuration items have corresponding instructions
 
-### 通过ref调用ElementUI-Table方法
+### Call ElementUI-Table method by ref
 ``` bash
 <my-table ref="table" :table-setting="tableSetting"/>
 ```
@@ -237,16 +237,13 @@ this.$refs['table'].clearSort();
 ```
 ## todo
 
-* ~~代码优化，目前只是从项目中拷贝出来~~
-* ~~通过$attrs支持ElementUI所有属性，通过$listeners返回所有事件~~
-* ~~移除lodash,只用到了Object.get~~
-* 移除less依赖
-* 更换英文注释，添加英文文档
-* ~~ref获取表格组件引用~~
+* ~~Code optimization, currently only copied from the project~~
+* ~~All attributes of ElementUI are supported through $attrs, and all events are returned through $listeners~~
+* ~~Remove lodash, only Object.get is used~~
+* Remove less dependency
+* ~~Replace English comments and add English documents~~
+* ~~ref Get the table component reference~~
 
 ## author
 
 sunzuoyuan@gmail.com
-
-## 感谢小梦梦的支持和鼓励
-

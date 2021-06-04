@@ -8,9 +8,9 @@
       :data="tableSetting.list"
       :span-method="cellMerge"
       @selection-change="handleSelectionChange">
-      <!--选择框-->
+      <!--ChecnkBox-->
       <el-table-column v-if="tableSetting.options.selection" type="selection" align="center" style="width: 50px;"/>
-      <!--添加序号-->
+      <!--Index-->
       <el-table-column
         v-if="!tableSetting.options.disableIndex"
         :index="indexMethod"
@@ -18,7 +18,7 @@
         label="序号"
         width="60"
         align="center"/>
-      <!--添加序号end-->
+      <!--Index end-->
       <template v-for="(column, index) in tableSetting.columns">
         <table-column v-if="getColumnShow(column.show)" :column="column" :index="index" :key="column.label+index">
           <template v-for="(column1, index1) in column.children">
@@ -30,11 +30,11 @@
           </template>
         </table-column>
       </template>
-      <!--空时展示的行-->
+      <!--Empty rows-->
       <!--<el-table-column-->
       <!--v-if="isColumnNull"-->
       <!--align="center"/>-->
-      <!-- 按钮操作组-->
+      <!-- Button operation group-->
       <el-table-column
         v-if="operatesWidth() > 10"
         ref="fixedColumn"
@@ -62,7 +62,7 @@
       </el-table-column>
     </el-table>
     <div style="height:12px"/>
-    <!-- 分页-->
+    <!-- pagination-->
     <el-pagination
       class="my-pagination"
       v-if="! tableSetting.isPaginateDisabled"
@@ -127,11 +127,11 @@ export default {
       this.refreshTable()
     },
     'tableSetting.options.loading': function () {
-      // 触发刷新
+      // force update
     }
   },
   mounted() {
-    //添加elementUI方法到mytable
+    //Add elementUI method to mytable
     tableMethods.forEach(method => {
       this[method] = this.$refs['tableInst'][method]
     })
@@ -140,7 +140,7 @@ export default {
     this.getSpanArr()
   },
   methods: {
-    // 强制刷新
+    // force update
     updateTable() {
       this.tableSetting.options.loading = true
       this.forceUpdate = false
@@ -150,32 +150,32 @@ export default {
         this.tableSetting.options.loading = false
       }, 20)
     },
-    // 切换每页显示的数量
+    // Toggle the number displayed on each page
     handleSizeChange(size) {
       this.$emit('handleSizeChange', size)
       this.tableSetting.page = 1
       this.tableSetting.pageSize = size
       this.refreshTable()
     },
-    // 切换页码
+    // Switch page number
     handleIndexChange(index) {
       this.$emit('handleIndexChange', index)
       this.tableSetting.page = index
       this.refreshTable()
     },
-    // 多行选中
+    // Multi-line selection
     handleSelectionChange(val) {
       this.tableSetting.multipleSelection = val
     },
-    // 刷新当前表格
+    // Refresh the current table
     refreshTable(size) {
       this.$emit('refreshTabl', size)
     },
-    // 计算行号方法
+    // Calculating line number method
     indexMethod(index) {
       return this.tableSetting.pageSize * (this.tableSetting.page - 1) + index + 1
     },
-    // 获取深层对象属相
+    // Get deep object zodiac
     getDescendantantProp(obj, desc) {
       try {
         const arr = desc.split('.')
@@ -187,7 +187,7 @@ export default {
         console.warn('table字段报错了')
       }
     },
-    // 获取宽度
+    // Get width
     operatesWidth() {
       let widthFinally = 0
       if (Array.isArray(this.tableSetting.list)) {
@@ -209,7 +209,7 @@ export default {
       }
       return widthFinally
     },
-    // 是否显示填充列，解决空列时留白问题 ：todo
+    // Whether to display filled columns, to solve the problem of blanking when empty columns：todo
     isColumnNull() {
       for (const _x of this.tableSetting.columns) {
         if (_x.show === true) {
@@ -217,7 +217,7 @@ export default {
         }
       }
       return true
-    }, // 是否显示列
+    }, // Whether to show columns
     getColumnShow(x) {
       try {
         if (typeof x === 'function') {
@@ -231,7 +231,7 @@ export default {
         return true
       }
     },
-    // 是否显示按钮
+    // Whether to show the button
     getButtonShow(x, row) {
       try {
         if (typeof x === 'function') {
@@ -257,7 +257,7 @@ export default {
         return x
       }
     },
-    // 合并行表格
+    // Combine row table
     cellMerge({row, column, rowIndex, columnIndex}) {
       if (deepGet(this.tableSetting, 'span.columnIndex')) {
         const columns = this.tableSetting.span.columnIndex.toString().split(',')
@@ -270,7 +270,7 @@ export default {
           }
         }
       }
-    }, // 获取合并表格数组
+    }, // Get the combined table array
     getSpanArr() {
       if (deepGet(this.tableSetting, 'span.columnIndex')) {
         if (this.tableSetting.list) {
@@ -281,7 +281,7 @@ export default {
               this.tableSetting.spanArr.push(1)
               this.pos = 0
             } else {
-              // 判断当前元素与上一个元素是否相同
+              // Determine whether the current element is the same as the previous element
               if (deepGet(this.tableSetting.list[i], this.tableSetting.span.spanColumn) === deepGet(this.tableSetting.list[i - 1], this.tableSetting.span.spanColumn) && deepGet(this.tableSetting.list[i], this.tableSetting.span.spanColumn)) {
                 this.tableSetting.spanArr[this.pos] += 1
                 this.tableSetting.spanArr.push(0)
