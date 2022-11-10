@@ -2,9 +2,6 @@
 
 > 基于ElementUI的table组件，支持通过简单的配置渲染table，相比于直接使用ElementUI/table更加简洁，代码更少
 
-## 预览
-### 在线地址
-http://207.148.23.60:8090/
 
 ## 功能
 ### elementUI原有功能支持

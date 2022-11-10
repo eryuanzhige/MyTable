@@ -2,9 +2,6 @@
 
 > Table component based on ElementUI supports rendering table through simple configuration, which is more concise and less code than using ElementUI/table directly
 
-## Preview
-### Online address
-http://207.148.23.60:8090/
 
 ## Features
 ### ElementUI original function support
